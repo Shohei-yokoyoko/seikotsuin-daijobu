@@ -1,4 +1,4 @@
-export type Block={kind:"p"|"h2"|"quote"|"official"|"experience"|"wait"|"check";text:string};
+export type Block={kind:"p"|"h2"|"quote"|"official"|"experience"|"wait"|"check"|"next";text:string;href?:string;description?:string};
 export type Post={slug:string;category:string;title:string;description:string;date:string;next?:string;blocks:Block[]};
 const p=(text:string):Block=>({kind:"p",text});
 const h2=(text:string):Block=>({kind:"h2",text});
@@ -7,6 +7,7 @@ const experience=(text:string):Block=>({kind:"experience",text});
 const wait=(text:string):Block=>({kind:"wait",text});
 const check=(text:string):Block=>({kind:"check",text});
 const quote=(text:string):Block=>({kind:"quote",text});
+const next=(text:string,href:string|undefined,description:string):Block=>({kind:"next",text,href,description});
 
 export const posts:Post[]=[
 {slug:"what-is-seikotsuin",category:"初めての方へ",title:"整骨院って、本当は何をするところ？ 整骨院で働いた柔道整復師が中にいたからこそ伝えたいこと",description:"整骨院を利用する前に知っておきたい、柔道整復師と療養費制度の基本。そして、このブログが何を検証するのか。",date:"2026.08.31",next:"health-insurance",blocks:[
@@ -94,7 +95,7 @@ h2("ここから先が、俺がこのブログで書きたい話"),
 p("制度だけなら、「骨折・脱臼・打撲・捻挫などが対象です」「肩こりや筋肉疲労は対象外です」で話は終わります。でも俺がこのブログを始めた理由は、その先にあります。"),
 experience("俺が実際に整骨院で働いていたとき、慢性的な腰痛で来る患者さんもいました。肩こりや身体の張りを訴える患者さんもいました。揉んでほしいという人もいました。そして俺自身、施術だけでなくレセプト業務にも関わりました。公的な制度として書かれていることと、俺が実際の現場で経験したこと。この二つを並べると、どうしても次の疑問が出てきます。"),
 quote("じゃあ、なぜ肩こりや慢性的な腰痛で整骨院へ通っている人に健康保険が使われていることがあるの？"),
-p("次の記事では、「肩こりで整骨院の保険が使えた。それ、本当に大丈夫？」を取り上げます。単に「ダメです」で終わらせません。なぜそんなことが起きるのか。患者側では何が見えていて、請求上では何が起きているのか。俺自身が現場で経験したことも含めて、順番に見ていきます。")
+next("肩こりで整骨院の保険が使えた。それ、本当に大丈夫？","/articles/shoulder-insurance","単に「ダメです」で終わらせません。なぜそんなことが起きるのか。患者側では何が見えていて、請求上では何が起きているのか。俺自身が現場で経験したことも含めて、順番に見ていきます。")
 ]},
 {slug:"shoulder-insurance",category:"健康保険・療養費",title:"肩こりで整骨院の保険が使えた。それ、本当に大丈夫？整骨院勤務経験のある柔道整復師が実際にやっていたこと",description:"単なる肩こりは療養費の対象外です。勤務経験を、制度上のルールと明確に分けて記録します。",date:"2026.08.31",blocks:[
 p("「肩が凝ったから整骨院へ行った」「電気を当ててもらって、全身を揉んでもらった」「健康保険が使えたから、支払いは数百円だった」。整骨院へ行ったことがある人なら、そんな経験があるかもしれません。"),
@@ -131,7 +132,7 @@ check("「俺は何という負傷名で健康保険を使っているんだろ�
 h2("「保険者から書類が届いたら、書かずに持ってきてください」"),
 p("そして、この話にはまだ続きがあります。健康保険組合などから患者本人へ、「いつ、どこで負傷しましたか？」「どんな施術を受けましたか？」といった内容を確認する書類が届くことがあります。そこで患者さん本人が、「昔から肩が凝っていて、揉んでもらっています」と書いたらどうなるでしょうか。院側から請求されている内容と食い違う可能性があります。"),
 experience("実際に俺が経験した現場では、「保険者から書類が届いたら、自分で書かずに整骨院へ持ってきてください」という案内が行われていました。初診の患者さんに、その旨を書いた紙を渡していた勤務先もありました。"),
-p("なぜそんなことをするのか。次の記事では、この「患者照会」と「療養費支給申請書」を取り上げます。保険者はなぜ患者本人へ確認するのか。患者は何を確認すればいいのか。そしてなぜ整骨院側が、「書かずに持ってきて」と言うことがあるのか。俺自身の経験と、公的な資料を分けながら説明します。")
+p("なぜそんなことをするのか。"),next("この「患者照会」と「療養費支給申請書」",undefined,"保険者はなぜ患者本人へ確認するのか。患者は何を確認すればいいのか。そしてなぜ整骨院側が、「書かずに持ってきて」と言うことがあるのか。俺自身の経験と、公的な資料を分けながら説明します。")
 ]}
 ];
 export const findPost=(slug:string)=>posts.find(p=>p.slug===slug);

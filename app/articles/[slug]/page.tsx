@@ -17,7 +17,6 @@ export default async function PostPage({params}:{params:Promise<{slug:string}>})
   const post=findPost(slug);
   if(!post)notFound();
   const h2=post.blocks.filter(b=>b.kind==="h2");
-  const nextPost=post.next?findPost(post.next):undefined;
 
   return <>
     <header className="site-header">
@@ -42,7 +41,9 @@ export default async function PostPage({params}:{params:Promise<{slug:string}>})
             ?<h2 id={encodeURIComponent(b.text)} key={i}>{b.text}</h2>
             :b.kind==="p"
               ?<p key={i}>{b.text}</p>
-              :<section key={i} className={"evidence-box "+b.kind}><span>{labels[b.kind]}</span><p>{b.text}</p></section>
+              :b.kind==="next"
+                ?<section key={i} className="next-article"><span>次の記事では</span>{b.href?<Link href={b.href}>{b.text}<i>→</i></Link>:<strong>{b.text}</strong>}<p>{b.description}</p></section>
+                :<section key={i} className={"evidence-box "+b.kind}><span>{labels[b.kind]}</span><p>{b.text}</p></section>
           )}
 
           {nextPost&&<section className="continue-reading">

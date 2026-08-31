@@ -46,10 +46,6 @@ export default async function PostPage({params}:{params:Promise<{slug:string}>})
                 :<section key={i} className={"evidence-box "+b.kind}><span>{labels[b.kind]}</span><p>{b.text}</p></section>
           )}
 
-          {nextPost&&<section className="continue-reading">
-            <span>次に読んでほしい記事</span>
-            <Link href={"/articles/"+nextPost.slug}>{nextPost.title}<i>→</i></Link>
-          </section>}
 
           <section className="source-list" id="sources">
             <span>この記事で確認した主な資料</span>

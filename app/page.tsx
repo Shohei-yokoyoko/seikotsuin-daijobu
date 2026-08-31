@@ -1,14 +1,34 @@
 import Link from "next/link";
 
-const concerns = [["骨盤が歪んでいます", "その説明は医学的にどこまで確認できる？", "#explain"],["毎日通ってください", "通院頻度は、どう説明されるべき？", "#visit"],["これは好転反応です", "不調を一律にそう呼んでよい？", "#explain"],["肩こりだけど保険で大丈夫", "療養費の対象を確認したい", "#insurance"],["強く揉んだ方が効きます", "強さと効果の根拠を確認したい", "#evidence"],["回数券を勧められた", "契約前に確認したいこと", "#visit"]];
-const categories = [["01", "健康保険・療養費", "保険が使える条件と、患者が確認したいこと", "#insurance"],["02", "よく聞く説明を検証", "骨盤・好転反応・根本改善を資料から読み解く", "#explain"],["03", "施術・エビデンス", "施術の効果や安全性を、言える範囲で整理する", "#evidence"],["04", "通院・回数券・契約", "通う回数や費用を自分で判断するために", "#visit"],["05", "法律・制度", "柔道整復と療養費制度の基本を確認する", "#insurance"],["06", "良い整骨院の見分け方", "批判だけで終わらせないための視点", "#good"]];
+const concerns = [
+  {title:"骨盤が歪んでいます",sub:"その説明は医学的にどこまで確認できる？"},
+  {title:"毎日通ってください",sub:"通院頻度は、どう説明されるべき？"},
+  {title:"これは好転反応です",sub:"不調を一律にそう呼んでよい？"},
+  {title:"肩こりだけど保険で大丈夫",sub:"療養費の対象を確認したい",href:"/articles/shoulder-insurance"},
+  {title:"強く揉んだ方が効きます",sub:"強さと効果の根拠を確認したい"},
+  {title:"回数券を勧められた",sub:"契約前に確認したいこと"}
+];
+const categories = [
+  ["01","健康保険・療養費","保険が使える条件と、患者が確認したいこと"],
+  ["02","よく聞く説明を検証","骨盤・好転反応・根本改善を資料から読み解く"],
+  ["03","施術・エビデンス","施術の効果や安全性を、言える範囲で整理する"],
+  ["04","通院・回数券・契約","通う回数や費用を自分で判断するために"],
+  ["05","法律・制度","柔道整復と療養費制度の基本を確認する"],
+  ["06","良い整骨院の見分け方","批判だけで終わらせないための視点"]
+];
+const publishedPosts = [
+  {title:"整骨院って、本当は何をするところ？",description:"整骨院の役割と、このブログが検証すること。",href:"/articles/what-is-seikotsuin"},
+  {title:"整骨院で健康保険が使えるのはどんなとき？",description:"肩こり・腰痛と療養費の基本条件。",href:"/articles/health-insurance"},
+  {title:"肩こりで整骨院の保険が使えた。それ、本当に大丈夫？",description:"制度と整骨院勤務経験を分けて記録します。",href:"/articles/shoulder-insurance"}
+];
 function Header(){return <header className="site-header"><Link href="/" className="brand"><span>その整骨院、</span><b>大丈夫？</b></Link><nav><a href="#about">このサイトについて</a><a href="#start">初めての方へ</a><a href="#categories">記事を探す</a></nav><span className="header-mark">?</span></header>}
 function Footer(){return <footer className="site-footer"><div className="footer-brand">その整骨院、<strong>大丈夫？</strong></div><p>患者が、説明・制度・契約を自分で考えるための検証メディア。</p><div className="footer-links"><a href="#about">このサイトについて</a><a href="#policy">編集・執筆方針</a><a href="#sources">出典について</a><a href="#contact">お問い合わせ</a><a href="#policy">免責事項</a></div><small>© 2026 その整骨院、大丈夫？</small></footer>}
 export default function Home(){return <><Header/><main>
 <section className="hero" id="about"><div className="eyebrow"><span/>PATIENT&apos;S CHECKING MEDIA</div><h1>整骨院で言われた<br/><em>その説明。</em><br/><span>本当に、そこまで言える？</span></h1><p>柔道整復師国家資格を保有し、整骨院勤務経験のある運営者が、制度・公的資料・研究・現場での経験を分けて検証します。</p><div className="hero-actions"><a className="button primary" href="#start">初めての方へ <i>↓</i></a><a className="text-link" href="#categories">テーマから読む <i>→</i></a></div><div className="hero-note"><b>このサイトの立場</b><span>整骨院全体を否定するのではなく、患者が立ち止まって考える材料を示します。</span></div></section>
-<section className="concerns section"><div className="section-head"><div><span className="kicker">CHECK YOUR EXPERIENCE</span><h2>こんなこと、<br/>言われていませんか？</h2></div><p>言われた言葉を入口に、その説明の根拠、制度上の位置づけ、患者側で確認することを整理します。</p></div><div className="concern-grid">{concerns.map(([title,sub,href],i)=><a className="concern-card" href={href} key={title}><span>0{i+1}</span><strong>「{title}」</strong><p>{sub}</p><i>→</i></a>)}</div></section>
+<section className="concerns section"><div className="section-head"><div><span className="kicker">CHECK YOUR EXPERIENCE</span><h2>こんなこと、<br/>言われていませんか？</h2></div><p>言われた言葉を入口に、その説明の根拠、制度上の位置づけ、患者側で確認することを整理します。</p></div><div className="concern-grid">{concerns.map(({title,sub,href},i)=>href?<Link className="concern-card" href={href} key={title}><span>0{i+1}</span><strong>「{title}」</strong><p>{sub}</p><i>→</i></Link>:<div className="concern-card unavailable" key={title}><span>0{i+1}</span><strong>「{title}」</strong><p>{sub}</p><em>記事準備中</em></div>)}</div></section>
 <section className="statement"><div><span className="kicker light">NOT A RUMOR SITE</span><h2>感情ではなく、<br/><em>確認できるもの</em>から。</h2></div><div className="statement-list"><p><b>経験</b><span>現場で見聞きしたことは、経験談として明確に分けます。</span></p><p><b>制度</b><span>法律・行政・保険者など、一次資料を優先します。</span></p><p><b>研究</b><span>効果や安全性は、研究・ガイドラインの範囲で扱います。</span></p><p><b>限界</b><span>確認できないことを、都合よく断定しません。</span></p></div></section>
-<section className="section category-section" id="categories"><div className="section-head"><div><span className="kicker">EXPLORE</span><h2>知りたいことから<br/>確かめる。</h2></div><p>記事数が増えても、必要な情報へ迷わず進めるための分類です。</p></div><div className="category-grid">{categories.map(([num,title,desc,href])=><a href={href} className="category-card" key={title}><span>{num}</span><h3>{title}</h3><p>{desc}</p><i>↗</i></a>)}</div></section>
+<section className="section category-section" id="categories"><div className="section-head"><div><span className="kicker">EXPLORE</span><h2>知りたいことから<br/>確かめる。</h2></div><p>記事数が増えても、必要な情報へ迷わず進めるための分類です。</p></div><div className="category-grid">{categories.map(([num,title,desc])=><div className="category-card unavailable" key={title}><span>{num}</span><h3>{title}</h3><p>{desc}</p><em>記事準備中</em></div>)}</div></section>
+<section className="published section" id="articles"><div className="section-head"><div><span className="kicker">PUBLISHED ARTICLES</span><h2>公開中の記事</h2></div><p>公開済みの記事は、ここから直接読めます。</p></div><div className="published-grid">{publishedPosts.map((post,index)=><Link className="published-card" href={post.href} key={post.href}><span>0{index+1}</span><h3>{post.title}</h3><p>{post.description}</p><b>この記事を読む <i>→</i></b></Link>)}</div></section>
 <section className="start section" id="start"><div className="start-copy"><span className="kicker">FIRST TIME HERE</span><h2>初めての方へ</h2><p>「何が問題なのか」だけでなく、整骨院と整形外科の違い、保険が使える基本条件から順に確認できます。</p><Link className="button dark" href="/articles/what-is-seikotsuin">まず、整骨院とは何かを読む <i>→</i></Link></div><ol><li><span>01</span><Link href="/articles/what-is-seikotsuin">整骨院とは何をする場所？</Link></li><li><span>02</span><b>整形外科との違い</b></li><li><span>03</span><Link href="/articles/health-insurance">健康保険が使える条件</Link></li><li><span>04</span><b>このサイトが問題にしていること</b></li></ol></section>
 <section className="article-sample section" id="insurance"><div className="sample-meta"><span>FEATURED GUIDE</span><small>整骨院と健康保険</small></div><article><p className="article-category">健康保険・療養費</p><h2>肩こり・慢性腰痛でも、整骨院で健康保険は使える？<br/><em>最初に確認したい基本</em></h2><p>「保険で大丈夫」と言われても、対象になる条件は別にあります。制度上の原則と、受診する側が確認できることを整理します。</p><div className="article-footer"><span>公開済み</span><Link href="/articles/health-insurance">この記事を読む <i>→</i></Link></div></article></section>
 <section className="principles section" id="policy"><span className="kicker">EDITORIAL PRINCIPLES</span><h2>書く前に、必ず<br/>分けること。</h2><div className="principle-grid"><div><b>公的資料では</b><p>制度・法律・行政の資料で確認できる内容。</p></div><div><b>研究では</b><p>論文・ガイドライン等が示す範囲。</p></div><div><b>実体験として</b><p>現場での経験であり、医学的事実ではない内容。</p></div><div><b>確認できない</b><p>根拠が不足し、断定できない内容。</p></div></div></section>

@@ -12,18 +12,11 @@ const labels:Record<string,string>={
   quote:"この記事のポイント"
 };
 
-const readingOrder=[
-  {slug:"what-is-seikotsuin",label:"整骨院は本来、何をするところか"},
-  {slug:"health-insurance",label:"健康保険が使える条件"},
-  {slug:"shoulder-insurance",label:"肩こりで保険が使われた実体験"}
-];
-
 export default async function PostPage({params}:{params:Promise<{slug:string}>}){
   const {slug}=await params;
   const post=findPost(slug);
   if(!post)notFound();
   const h2=post.blocks.filter(b=>b.kind==="h2");
-  const currentIndex=readingOrder.findIndex(item=>item.slug===post.slug);
   const nextPost=post.next?findPost(post.next):undefined;
 
   return <>
@@ -42,19 +35,6 @@ export default async function PostPage({params}:{params:Promise<{slug:string}>})
         <div className="article-byline"><span>公開日：{post.date}</span><span>執筆：柔道整復師国家資格保有者</span></div>
       </header>
 
-      <section className="reading-path" aria-label="この連載を読む順番">
-        <div><b>このテーマを読む順番</b><span>まずは制度の前提から。3本でつながる連載です。</span></div>
-        <ol>
-          {readingOrder.map((item,index)=>{
-            const isCurrent=item.slug===post.slug;
-            return <li className={isCurrent?"current":""} key={item.slug}>
-              <span>{String(index+1).padStart(2,"0")}</span>
-              {isCurrent?<strong>{item.label}<small>いま読んでいる記事</small></strong>:<Link href={"/articles/"+item.slug}>{item.label}<i>→</i></Link>}
-            </li>
-          })}
-        </ol>
-      </section>
-
       <div className="article-layout">
         <aside className="article-toc"><b>目次</b>{h2.map(x=><a href={"#"+encodeURIComponent(x.text)} key={x.text}>{x.text}</a>)}</aside>
         <article className="article-body">
@@ -65,19 +45,10 @@ export default async function PostPage({params}:{params:Promise<{slug:string}>})
               :<section key={i} className={"evidence-box "+b.kind}><span>{labels[b.kind]}</span><p>{b.text}</p></section>
           )}
 
-          <section className="continue-reading">
-            {nextPost?<>
-              <span>ここまで読んだら、次へ</span>
-              <h2>制度の説明だけで終わらせないために</h2>
-              <p>次の記事では、制度上のルールと、実際の勤務経験との間にあったギャップを扱います。</p>
-              <Link href={"/articles/"+nextPost.slug}>次に読む：{nextPost.title}<i>→</i></Link>
-            </>:<>
-              <span>この連載の現在地</span>
-              <h2>次回は「患者照会」を取り上げます</h2>
-              <p>保険者から届く確認書類を、患者はなぜ・何を確認すればよいのか。公開準備中です。</p>
-              <Link href="/articles/health-insurance">前提から読み直す：整骨院で健康保険が使えるのはどんなとき？<i>←</i></Link>
-            </>}
-          </section>
+          {nextPost&&<section className="continue-reading">
+            <span>次に読んでほしい記事</span>
+            <Link href={"/articles/"+nextPost.slug}>{nextPost.title}<i>→</i></Link>
+          </section>}
 
           <section className="source-list" id="sources">
             <span>この記事で確認した主な資料</span>
